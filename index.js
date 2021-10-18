@@ -52,7 +52,34 @@ app.get("/pagar", async (req, res) => {
 });
 
 app.post("/not", (req, res) => {
-    console.log(req.query);
+    //receber uma id de notificacao IPN
+    var id = req.query.id;
+
+    setTimeout(() => {
+        var filtro = {
+            "order.id": id
+        }
+
+        MercadoPago.payment.search({
+            qs: filtro
+        }).then(data => {
+            var pagamento = data.body.results[0];
+            if(pagamento != undefined) {
+                console.log(pagamento);
+                console.log(pagamento.external_reference);
+                console.log(pagamento.status);
+                if(pagamento.status  == "approved") {
+                    Banco.definirComoPago(pagamento.external_reference);
+                }
+            } else {
+                console.log("Pagamento não existe");
+            }
+            console.log(data);
+        }).catch(err => {
+            console.log(err);
+        })
+    }, 20000);
+
     res.sendStatus(200);
     res.send("OK");
 })
