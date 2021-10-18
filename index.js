@@ -51,9 +51,6 @@ app.get("/pagar", async (req, res) => {
 
 });
 
-<<<<<<< HEAD
-app.listen(6000, (req, res) => {
-=======
 app.post("/not", (req, res) => {
     console.log(req.query);
     res.sendStatus(200);
@@ -61,6 +58,5 @@ app.post("/not", (req, res) => {
 })
 
 app.listen(4400, (req, res) => {
->>>>>>> 3da60d4 (/not)
     console.log("Servidor rodando");
 });
